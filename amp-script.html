@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>amp-script</title>
+  <style>
+    :root{
+      --black: #3b4043;
+      --dark-gray: #6f7579;
+      --normal-gray: #959ea7;
+      --light-gray: #cdd6dd;
+      --high-gray: #f0f3f5;
+      --white: #fff;
+    }
+    html,body,div,section,nav,h2,h3,h4,h5,h6,p,dl,dt,dd,input,textarea,th,td{
+      margin: 0;
+      padding: 0;
+      font-size: inherit;
+      font-family: inherit;
+      color: inherit;
+      font-weight: inherit;
+      border: none;
+    }
+    ul{
+      margin: 0;
+    }
+    a{
+      text-decoration: none;
+    }
+    body{
+      color: var(--black);
+      font: 100 14px/1.6 'Noto Sans CJK JP', Arial, Verdana, 游ゴシック, YuGothic,'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', メイリオ, Meiryo,sans-serif;
+    }
+    @media screen and (max-width:480px) {
+      body{
+        font-size: 4vw;
+      }
+    }
+    .wrap{
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .l-sec{
+      margin: 40px 0;
+    }
+    .l-sec h2{
+      margin: 1em 0 .5em;
+      font-weight: bold;
+      font-size: 1.4em;
+    }
+    .l-sec h3{
+      margin: .5em 0 0.25em;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .l-sec h4{
+      margin: .5em 0 .25em;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+    .l-sec code{
+      background: #e6e9e3;
+      padding: .25em .5em;
+      font-family: verdana;
+      font-size: .9em;
+      font-weight: bold;
+    }
+    .l-sec pre{
+      background: #e8edec;
+      padding: 1em;
+      padding-left: 0;
+      font-family: verdana;
+      font-size: .9em;
+      font-weight: bold;
+    }
+    .l-sec p.me{
+      color: orange;
+      font-weight: bold;
+    }
+    .l-sec .caution{
+      border-left: 3px solid #ccc;
+      padding-left: 1em;
+    }
+    table{
+      margin: 20px 0;
+      border-collapse: collapse;
+    }
+    th{
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      font-weight: bold;
+    }
+    td{
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+    }
+    table.row-2 th{
+      width: 25%;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <h1>amp-script 翻訳</h1>
+    <p>https://amp.dev/documentation/components/amp-script/</p>
+
+    <section class="l-sec l-sec--info">
+      <p>カスタムJavaScriptを実行してUIをレンダリングできます。</p>
+      <table class="row-2">
+        <tr>
+          <th>必要な記述</th>
+          <td><code>&lt;script async custom-element="amp-script" src="https://cdn.ampproject.org/v0/amp-script-0.1.js">&lt;/script></code></td>
+        </tr>
+        <tr>
+          <th>例</th>
+          <td>
+            <p>注釈なしのコードサンプル</p>
+            <a href="https://github.com/ampproject/amphtml/tree/master/examples/amp-script" rel="noopener noreferrer" target="_blank">https://github.com/ampproject/amphtml/tree/master/examples/amp-script</a>
+          </td>
+        </tr>
+        <tr>
+          <th>Tutorials</th>
+          <td>
+            <a href="https://amp.dev/documentation/guides-and-tutorials/develop/custom-javascript/?format=websites" rel="noopener noreferrer" target="_blank">Getting started with amp-script</a><br>
+            <a href="https://amp.dev/documentation/guides-and-tutorials/develop/custom-javascript-tutorial/?format=websites" rel="noopener noreferrer" target="_blank">Custom password requirements with amp-script</a>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="l-sec l-sec--overview">
+      <h2>概要</h2>
+      <p>amp-scriptコンポーネントを使用すると、カスタムJavaScriptを実行して、ReactコンポーネントなどのUI要素をレンダリングできます。</p>
+      <h3>簡単な例</h3>
+      <p>amp-script要素は、次の2つの方法でJavaScriptをロードできます。</p>
+      <ul class="list">
+        <li>リモートから、URLからJavaScriptファイルへ。</li>
+        <li>ローカルでは、ページのscript[type=text/plain][target=amp-script]要素から。</li>
+      </ul>
+      <h4>リモートURLからJavaScriptを読み込む</h4>
+      <p>src属性を使用して、リモートJavaScriptをロードします。<br>srcがクロスオリジンURLを指している場合、"script hash"もドキュメントヘッドに追加する必要があります。</p>
+      <pre>
+      &lt;amp-script layout="container" src="https://example.com/hello-world.js">
+        &lt;button>Hello amp-script!&lt;/button>
+      &lt;/amp-script></pre>
+      <p class="caution">
+        スクリプトまたはクロスオリジンsrc属性を持つamp-script要素には、"script hash"が必要です。 "script hash"は、ドキュメントヘッドの<code>&lt;meta name="amp-script-src" content="..."></code>要素で指定されます。<br>
+        期待されるコンテンツ値でコンソールエラーがスローされます。エラーからコピー/貼り付けして適切な&lt;meta>タグを作成できます。
+      </p>
+      <p class="me">"script hash"は有効期限があるっぽい？</p>
+      <h4>ローカル要素からJavaScriptを読み込む</h4>
+      <p>script属性を使用して、ローカルスクリプト要素をIDで参照します。</p>
+      <pre>
+      &lt;amp-script width="200" height="50" script="hello-world">
+        &lt;button>Hello amp-script!&lt;/button>
+      &lt;/amp-script>
+
+      &lt;script id="hello-world" type="text/plain" target="amp-script">
+        const btn = document.querySelector('button');
+        btn.addEventListener('click', () => {
+          document.body.textContent = 'Hello World!';
+        });
+      &lt;/script></pre>
+
+      <h3>どのように働く？</h3>
+      <p>amp-scriptは、仮想DOMを含む<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" rel="noopener noreferrer" target="_blank">Web Worker</a>でカスタムJavaScriptを実行します。 JavaScriptコードがこの仮想DOMを変更すると、amp-scriptはこれらの変更をメインスレッドに転送し、amp-script要素のサブツリーに適用します。</p>
+      <p>例えば、document.bodyに要素を追加する時</p>
+      <pre>
+      // my-script.js
+      const p = document.createElement('p');
+      p.textContent = 'I am added to the body!';
+      document.body.appendChild(p);</pre>
+      <p>amp-script要素の新しい子としてページに反映されます。</p>
+      <pre>
+      &lt;amp-script src="http://example.com/my-script.js" width="300" height="100">
+        &lt;p>I am added to the body!&lt;/p>
+      &lt;/amp-script></pre>
+      <p>内部では、amp-scriptは<a href="https://github.com/ampproject/worker-dom/" rel="noopener noreferrer" target="_blank">@ampproject/worker-dom</a>を使用します。 設計の詳細については、<a href="https://github.com/ampproject/amphtml/issues/13471" rel="noopener noreferrer" target="_blank">「実装する意図」の問題</a>を参照してください。</p>
+
+      <h3>状態操作</h3>
+      <p>
+        amp-scriptは、JavaScriptを介したamp-state JSONの取得と設定をサポートします。<br>
+        これにより、amp-bindバインディングを介したamp-scriptとページ上の他のAMP要素との間の高度な相互作用が可能になります。これらの要素は、amp-script要素の内部（子孫）または外部（非子孫）になります。
+      </p>
+      <table class="row-2">
+        <tr>
+          <th>AMP.setState(json) {}</th>
+          <td>「json」を現在のアンプ状態に深くマージします。<br>json : JSONオブジェクト（循環参照を含めることはできません。）</td>
+        </tr>
+        <tr>
+          <th>AMP.getState(expr) {}</th>
+          <td>非同期でamp-stateを返します。<br>expr : オプションのJSON式文字列（例：foo.bar）<br>@return {!Promise<!Object>}</td>
+        </tr>
+      </table>
+      <pre>
+      &lt;amp-script width="1" height="1" script="webSocketDemo"> &lt;/amp-script>
+      &lt;script type="text/plain" target="amp-script" id="webSocketDemo">
+        const socket = new WebSocket('wss://websocket.example');
+        socket.onmessage = event => {
+          AMP.setState({socketData: event.data});
+        };
+      &lt;/script></pre>
+      <p class="caution">&lt;amp-state>は、「src」属性でWebSocket URLをサポートしていません。ただし、&lt;amp-script>を使用して回避できます。</p>
+
+      <h3>制限事項</h3>
+      <h4>許されているAPI</h4>
+      <p>現在、ほとんどのDOM要素とそのプロパティがサポートされています。 querySelectorのようなDOMクエリAPIは部分的にサポートされています。 履歴などのブラウザAPIはまだ実装されていません。 詳細については、<a href="https://github.com/ampproject/worker-dom/blob/master/web_compat_table.md" rel="noopener noreferrer" target="_blank">API互換性の表</a>をご覧ください。<br>サポートしたいAPIがある場合は、<a href="https://github.com/ampproject/amphtml/issues/new" rel="noopener noreferrer" target="_blank">問題を報告</a>して@choumxと@kristoferbaxterに連絡してください。</p>
+      <h4>JavaScriptコードのサイズ</h4>
+      <p>amp-scriptには、JavaScriptファイルサイズに関する次の制限があります。</p>
+      <ul>
+        <li>script[type=text/plain][target=amp-script]を介してローカルスクリプトを使用するamp-script要素ごとに最大10,000バイト。(10KB)</li>
+        <li>ページ上のすべてのamp-script要素の最大合計150,000バイト。(150KB)</li>
+      </ul>
+      <h4>User gestures</h4>
+      <p>amp-scriptは通常、JavaScriptコードによってトリガーされた変更をページに適用するためにユーザージェスチャが必要です（これらを"mutations"と呼びます）。 この要件により、予期しないコンテンツのジャンプによるユーザーエクスペリエンスの低下を回避できます。</p>
+      <p>"mutations"の規則は次のとおりです。</p>
+      <ul>
+        <li>"mutations"は、ユーザージェスチャの後、常に5秒間受け入れられます。</li>
+        <li>作成者スクリプトがユーザージェスチャの結果としてfetch（）を実行する場合、5秒の間隔が延長されます。</li>
+        <li>[layout ！="container"]および高さ300px未満のamp-script要素では、"mutations"が常に受け入れられます。</li>
+      </ul>
+      <h4>セキュリティ機能</h4>
+      <p>amp-scriptで実行されるカスタムJSは通常のコンテンツセキュリティポリシーの対象ではないため、実行時にチェックされるいくつかの追加の対策が含まれています。</p>
+      <ul>
+        <li>同一生成元srcにはContent-Type：application/javascriptが必要です。</li>
+        <li>クロスオリジンのsrcとスクリプトには、ドキュメントヘッドのmeta[name=amp-script-src]要素に一致するスクリプトハッシュが必要です。コンソールエラーが予想されるハッシュ文字列で出力されます。</li>
+      </ul>
+      <pre>
+      &lt;head>
+      &lt;meta
+        name="amp-script-src"
+        content="
+          sha384-fake_hash_of_remote_js
+          sha384-fake_hash_of_local_script
+        ">
+      &lt;/head>
+      &lt;body>
+        &lt;amp-script src="cross.origin/remote.js" layout=container>&lt;/amp-script>
+        &lt;amp-script script=myScript layout=container>&lt;/amp-script>
+        &lt;script type=text/plain target=amp-script id=myScript>
+          document.body.textContent += 'Hello world!';
+        &lt;/script>
+      &lt;/body></pre>
+      <div class="caution">
+        <ul>
+          <li>meta[name="amp-script-src"] には、スペースで区切られたページ上の&lt;amp-script>要素。</li>
+          <li>クロスオリジンURLを持つ「src」属性には、スクリプトハッシュを追加する必要があります。<br>remote.jsのコンテンツのハッシュが「fake_hash_of_remote_js」の場合、上記のmetaタグに「sha384-fake_hash_of_remote_js」を追加。</li>
+          <li>「スクリプト」属性にも、スクリプトハッシュの追加も必要です。<br>#myScriptのテキストコンテンツのハッシュが「fake_hash_of_local_script」の場合、上記のmetaタグに「sha384-fake_hash_of_local_script」を追加します。</li>
+        </ul>
+      </div>
+      <p class="me">テキストコンテンツのハッシュはどこで分かるのだろうか</p>
+      <p class="caution">amp-script要素にdevelopment属性を追加することにより、開発中にJavaScriptサイズとスクリプトハッシュの要件を無効にできます。</p>
+    </section>
+
+    <section class="l-sec l-sec--attribute">
+      <h2>属性</h2>
+      <table class="row-2">
+        <tr>
+          <th>src</th>
+          <td>リモートスクリプトを指定する。<br>この&lt;amp-script>のコンテキストで実行されるJSファイルのURL。<br>URLのプロトコルはHTTPSであり、HTTP応答のContent-Typeはapplication/javascriptでなければなりません。</td>
+        </tr>
+        <tr>
+          <th>script</th>
+          <td>ローカルスクリプトを指定する。<br>この&lt;amp-script>のコンテキストで実行されるJSをテキストコンテンツに含むscript[type=text/plain][target=amp-script]要素のID。</td>
+        </tr>
+        <tr>
+          <th>sandbox（任意）</th>
+          <td>
+            この&lt;amp-script>によって変更される可能性のある追加の制限をDOMに適用します。 iframe[sandbox]属性と同様に、属性の値は、すべての制限を適用するために空にするか、特定の制限を解除するためにスペースで区切ったトークンのいずれかにすることができます。<br>
+            allow-forms：フォーム要素の作成と変更を許可します。 AMPでは、ユーザー入力からの不正な状態変更リクエストを防ぐために特別な処理が必要です。 詳細については、<a href="https://amp.dev/documentation/components/amp-form/?format=websites#security-considerations" rel="noopener noreferrer" target="_blank">amp-formのセキュリティに関する考慮事項</a>を参照してください。
+            <p class="me">良く分からん。要確認</p>
+          </td>
+        </tr>
+        <tr>
+          <th>max-age（任意）</th>
+          <td>
+            ローカルスクリプトの時のみ動作する。<br>max-age属性は、署名付き交換（SXG）の公開時からローカルスクリプトの提供を許可する最大ライフタイムを秒単位で指定します。<br>署名済みの交換を公開しない場合、max-ageは何もしません。
+            <ul>
+              <li>max-ageを長くすると、SXGダウングレードの潜在的なセキュリティへの影響が増加します。</li>
+              <li>max-ageを短くすると、SXGの寿命が最小のAMPキャッシュに含まれない場合があります。</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>development（任意）</th>
+          <td>開発の利便性を高めるために、JSサイズとセキュリティ制約を無効にするブール属性。<br>この属性はAMP Validatorで許可されていないため、本番環境のページでは使用しないでください。</td>
+        </tr>
+        <tr>
+          <th>共通属性</th>
+          <td><a href="https://amp.dev/documentation/guides-and-tutorials/learn/common_attributes?format=websites" rel="noopener noreferrer" target="_blank">こちら</a>を参照<br>fallback, heights, layout, media, noloading, on, placeholder, sizes, width and height</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="l-sec l-sec--errors">
+      <h2>エラー</h2>
+      <h3>"Maximum total script size exceeded (...)"</h3>
+      <p>scriptサイズが大き過ぎます。</p>
+      <h3>"Script hash not found."</h3>
+      <p>"script hash"がありません。ローカルスクリプトとクロスオリジンsrcでは、使用する特別な<meta>タグを追加する必要があります。</p>
+      <h3>"amp-script... was terminated due to illegal mutation"</h3>
+      <p>予期しないコンテンツのジャンプを避けるために、amp-scriptは通常、DOMの変更のためにユーザージェスチャーを必要とします。</p>
+    </section>
+
+    <section class="l-sec l-sec--help">
+      <h2>さらに助けが必要な時</h2>
+      <p><a href="https://stackoverflow.com/questions/tagged/amp-html" rel="noopener noreferrer" target="_blank">stack overflow</a>で聞いてね</p>
+    </section>
+
+    <section class="l-sec l-sec--bug">
+      <h2>バグを見つけた、もしくは機能がなかった時</h2>
+      <p>AMPプロジェクトは、あなたの参加と貢献を強く推奨します！ あなたが私たちのオープンソースコミュニティの継続的な参加者になることを願っていますが、あなたが特に情熱を持っている問題に対する一回限りの貢献も歓迎します。<br><a href="https://github.com/ampproject/amphtml"  rel="noopener noreferrer" target="_blank">github</a></p>
+    </section>
+
+  </div>
+</body>
+</html>
