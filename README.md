@@ -33,8 +33,9 @@ amp-scriptの練習
 |EC|amp-bind|https://amp.dev/documentation/guides-and-tutorials/develop/interactivity/|
 
 ### Qiita参考ドキュメント
-[【AMP】amp-listで取得したデータをamp-bindを使ってリアルタイムにフィルタリングする](https://qiita.com/kingpanda/items/d086aa5cdb4a8dae43be)
-```js:記事を参考に実際書いたコード
+[【AMP】amp-listで取得したデータをamp-bindを使ってリアルタイムにフィルタリングする](https://qiita.com/kingpanda/items/d086aa5cdb4a8dae43be)  
+記事を参考に実際書いたコード
+```html
 <button on="tap:AMP.setState({isSelectA: !isSelectA })" [class]="isSelectA ? 'on' : ''">
 <button on="tap:AMP.setState({isSelectB: !isSelectA })" [class]="isSelectB ? 'on' : ''">
 <amp-list id="list" src="https://localhost:3002/list" layout="responsive"  width="375" height="400" [src]="'https://localhost:3002/list?' + (isSelectA ? '&a=1' : '') + (isSelectB ? '&b=1' : '')">
