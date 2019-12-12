@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>custom-javascript</title>
+  <style>
+    :root{
+      --black: #3b4043;
+      --dark-gray: #6f7579;
+      --normal-gray: #959ea7;
+      --light-gray: #cdd6dd;
+      --high-gray: #f0f3f5;
+      --white: #fff;
+    }
+    html,body,div,section,nav,h2,h3,h4,h5,h6,p,dl,dt,dd,input,textarea,th,td{
+      margin: 0;
+      padding: 0;
+      font-size: inherit;
+      font-family: inherit;
+      color: inherit;
+      font-weight: inherit;
+      border: none;
+    }
+    ul{
+      margin: 0;
+    }
+    a{
+      text-decoration: none;
+    }
+    body{
+      color: var(--black);
+      font: 100 14px/1.6 'Noto Sans CJK JP', Arial, Verdana, 游ゴシック, YuGothic,'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', メイリオ, Meiryo,sans-serif;
+    }
+    @media screen and (max-width:480px) {
+      body{
+        font-size: 4vw;
+      }
+    }
+    .wrap{
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .l-sec{
+      margin: 40px 0;
+    }
+    .l-sec h2{
+      margin: 1em 0 .5em;
+      font-weight: bold;
+      font-size: 1.4em;
+    }
+    .l-sec h3{
+      margin: .5em 0 0.25em;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .l-sec h4{
+      margin: .5em 0 .25em;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+    .l-sec code{
+      background: #e6e9e3;
+      padding: .25em .5em;
+      font-family: verdana;
+      font-size: .9em;
+      font-weight: bold;
+    }
+    .l-sec pre{
+      background: #e8edec;
+      padding: 1em;
+      padding-left: 0;
+      font-family: verdana;
+      font-size: .9em;
+      font-weight: bold;
+    }
+    .l-sec p + p{
+      margin-top: 1em;
+    }
+    .l-sec p.me{
+      color: orange;
+      font-weight: bold;
+    }
+    .l-sec .caution{
+      border-left: 3px solid #ccc;
+      padding-left: 1em;
+    }
+    table{
+      margin: 20px 0;
+      border-collapse: collapse;
+    }
+    th{
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      font-weight: bold;
+    }
+    td{
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+    }
+    table.row-2 th{
+      width: 25%;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <h1>Include custom JavaScript in AMP pages 翻訳</h1>
+    <p>https://amp.dev/documentation/guides-and-tutorials/develop/custom-javascript/?format=websites</p>
+
+    <section class="l-sec l-sec--info">
+      <h2>AMPページにカスタムJavaScriptを含める</h2>
+      <p>AMPは、すぐに使用できる高機能でシームレスなコンポーネントの使用を奨励することにより、Web上のすべてのユーザーに一貫して優れたエクスペリエンスを提供するよう努めています。</p>
+      <p>一部のWebエクスペリエンスでは、amp-bindの状態バインディング機能、およびamp-listおよびamp-mustacheの動的データ取得とテンプレート機能を超える大量のカスタマイズが必要です。 これらの一時的なケースのために、AMPは&lt;amp-script>を作成しました。これは、ページの全体的なパフォーマンスに影響を与えることなく、AMPページで任意のJavaScriptを使用できるようにするコンポーネントです。</p>
+    </section>
+
+    <section class="l-sec l-sec--overview">
+      <h2>カスタムJavaScriptの挿入</h2>
+      <p>AMPページは、<amp-script>コンポーネントを介してカスタムJavaScriptをサポートします。 以下の例は、URLから読み込まれたJavaScriptファイルでamp-scriptを使用する方法を示しています。</p>
+      <pre>
+      &lt;!doctype html>
+      &lt;html ⚡>
+      &lt;head>
+        ...
+        &lt;script async custom-element="amp-script" src="https://cdn.ampproject.org/v0/amp-script-0.1.js">&lt;/script>
+      &lt;body>  
+        ...
+        &lt;amp-script layout="container" src="https://example.com/myfile.js">
+          &lt;p>Initial content that can be modified from JavaScript&lt;/p>
+        &lt;/amp-script>
+        ...
+      &lt;/body>
+      &lt;/html></pre>
+      <p>&lt;amp-script>コンポーネントは、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API" target="_blank">Web Worker</a>を登録して、メインページとは別のスレッドで実行します。 Web Workerには、<a href="https://github.com/ampproject/worker-dom" target="_blank">Worker DOM</a>のampスクリプトを使用して、DOMの独自のコピーが与えられます。 これにより、Web WorkerはReactやjQueryなどのJavaScriptライブラリを変更せずに使用できます。</p>
+      <p>amp-scriptコンポーネントは、Web Workerスレッドとメインスレッドの間でメッセージを送信し、ユーザーがメインDOMで行った変更がWeb Workerのfalse DOMにエコーされるようにします。 次に、Web WorkerはメインDOMに反映されるfalse DOMを更新できます。</p>
+
+      <h4>カスタムスクリプトのキャッシュ</h4>
+      <p><a href="https://amp.dev/documentation/guides-and-tutorials/learn/amp-caches-and-cors/how_amp_pages_are_cached/?format=websites" target="_blank">AMPキャッシュ</a>は、AMPコンポーネントスクリプトと同じ&lt;amp-script>で挿入されたカスタムJavaScriptファイルを提供します。 これにより、カスタムJavaScriptがAMPドキュメントの速度を低下させないことが保証されます。</p>
+      <p>AMPキャッシュはJavaScriptファイルをプロキシしてから配信します。 ユーザーは、&lt;amp-script>を使用するページから、それを含まないページと同じパフォーマンスエクスペリエンスを期待できます。</p>
+    </section>
+
+    <section class="l-sec l-sec--use">
+      <h2>&ltamp-script>を使用</h2>
+      <p>AMPページでのエクスペリエンスの一貫性を保つために、&lt;amp-script>には制限があり、高速な読み込み時間とスムーズなUIを保証します。</p>
+      <h3>初期化</h3>
+      <p>Web Worker内のJavaScriptは、ロード時のDOMへの最小限の変更を許可します。 このフェーズで許可される変更は次のとおりです。</p>
+      <ul class="list">
+        <li>イベントハンドラーの登録。</li>
+        <li>TextNodeを複数のTextNodeに分割し、それを必要とするフレームワークを可能にします。</li>
+      </ul>
+      <p>&lt;amp-script>タグ内のDOMは、初期化の前後でほぼ同一である必要があります。</p>
+      <p>たとえば、次のコードで開始する場合：</p>
+      <pre>&lt;text> Hello world &lt;/text></pre>
+      <p>ワーカーDOMは、構造の小さな変更を許可しますが、コンテンツの変更は許可しません。</p>
+      <pre>&lt;text>Hello &lt;/text>&lt;text>world&lt;/text></pre>
+      <h3>DOM操作</h3>
+      <p>ユーザーエクスペリエンスとセキュリティ上の理由から、amp-scriptはDOM操作制限を実施しました。</p>
+      <h4>使用者の行動</h4>
+      <p>ユーザーが&lt;amp-script>コンポーネント内にラップされた要素と対話するとき、DOM操作は迅速に応答する必要があります。 フェッチ関数を実行する場合、<strong>DOM操作は5秒以内に完了</strong>する必要があります。 アンプスクリプトロジックがフェッチを実行していない場合、<strong>がDOMを更新するのに1秒未満</strong>かかります。 スクリプトが許可されたウィンドウの外でDOMを変更すると、致命的なエラーが発生し、amp-scriptコンポーネントはWeb Workerを終了します。 終了した<amp-script>コンポーネントは再び実行されません。</p>
+      <h4>プロンプトなしの変更</h4>
+      <p>&lt;amp-script>コンポーネントがlayout=container以外の固定レイアウトを使用し、十分に小さい場合、DOMを操作するための相互作用の要件はありません。</p>
+      <p class="caution">2019年4月の時点で、&lt;amp-script>コンポーネントは、プロンプトのない変更要件を満たすために、<strong>300px以下</strong>の固定された高さになければなりません。</p>
+    </section>
+
+    <div class="l-sec l-sec--size">
+      <h2>スクリプトの容量</h2>
+      <p>AMPは、各ページに150キロバイトのカスタムJavaScriptの制限を強制します。 この制限は、そのページのすべての&lt;amp-script>コンポーネントで共有されます。 <strong>ライブラリを使用する場合は、個々の&lt;amp-script>コンポーネントにインポートする必要があります。</strong></p>
+    </div>
+
+    <div class="l-sec l-sec--scope">
+      <h2>範囲</h2>
+      <p>カスタムJavaScriptファイルがやり取りするDOM要素は、&lt;amp-script>コンポーネントタグ内にラップする必要があります。これには他のAMPコンポーネントが含まれます。 <strong>&lt;amp-script>コンポーネントは、document.bodyをドキュメントの&lt;body>要素ではなくamp-script要素と見なします。</strong></p>
+      <p>次のドキュメントの&lt;amp-script>ファイル内で<code>document.body.appendChild(document.createElement('span'))</code>を呼び出す場合：</p>
+      <pre>
+      &lt;body>  
+        &lt;p>Hello!&lt;/p>
+        &lt;div>
+          &lt;amp-script layout="container" src="customjs.js">
+          &lt;/amp-script>
+        &lt;/div>
+      &lt;/body></pre>
+      <p>次のようになります。</p>
+      <pre>
+      &lt;body>  
+        &lt;p>Hello!&lt;/p>
+        &lt;div>
+          &lt;amp-script layout="container" src="customjs.js">
+            &lt;span>&lt;/span>
+          &lt;/amp-script>
+        &lt;/div>
+      &lt;/body></pre>
+    </div>
+
+    <div class="l-sec l-sec--trigger">
+      <h2>イベントトリガー</h2>
+      <p>すべてのイベントトリガーが許可されます。</p>
+    </div>
+
+    <div class="l-sec l-sec--api">
+      <h2>APIの制限</h2>
+      <p>一部の同期メソッドは&lt;amp-script>では許可されず、Element.getBoundingClientRect()などの代替手段に置き換えられます。 何故ならElement.getBoundingClientRect()をWeb Workerに実装できなかったため、これに代わる非同期のgetBoundingClientRectAsync()が提供されます。<br>getBoundingClientRectAsync()は、結果を直接返す代わりにPromiseを返します。</p>
+      <p><a href="https://github.com/ampproject/worker-dom/blob/master/web_compat_table.md" target="_blank">このチャート</a>を表示して、WorkerDOMがサポートするAPIを確認してください。</p>
+    </div>
+
+  </div>
+</body>
+</html>
