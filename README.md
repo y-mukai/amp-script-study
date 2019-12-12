@@ -19,16 +19,16 @@ amp-scriptの練習
 ```
 
 ### ドキュメント
-||||
-|---|---|---|---|
+| | | |
+|---|---|---|
 |概要|https://amp.dev/documentation/components/amp-script/|[日本語](https://y-mukai.github.io/amp-script-study/amp-script.html)|
 |ルール|https://amp.dev/documentation/guides-and-tutorials/develop/custom-javascript/|[日本語](https://y-mukai.github.io/amp-script-study/custom-javascript.html)|
 |解説付き例<br>(ログイン)|https://amp.dev/documentation/guides-and-tutorials/develop/custom-javascript-tutorial/||
 |サンプル置き場|https://github.com/ampproject/amphtml/tree/master/examples/amp-script||
 
 ### amp-scriptじゃないドキュメント
-||||
-|---|---|---|---|
+| | | |
+|---|---|---|
 |ログインフロー|amp-access, amp-form|https://amp.dev/documentation/guides-and-tutorials/develop/login_requiring/|
 |EC|amp-bind|https://amp.dev/documentation/guides-and-tutorials/develop/interactivity/|
 
