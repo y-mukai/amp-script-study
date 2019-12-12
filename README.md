@@ -37,5 +37,5 @@ amp-scriptの練習
 ```
 <button on="tap:AMP.setState({isSelectA: !isSelectA })" [class]="isSelectA ? 'on' : ''">
 <button on="tap:AMP.setState({isSelectB: !isSelectA })" [class]="isSelectB ? 'on' : ''">
-<amp-list id="list" src="https://localhost:3002/list" layout="responsive"  width="375" height="400" [src]="'https://localhost:3002/list?' + (btnNosmoke ? '&a=1' : '') + (btnOutbath ? '&b=1' : '')">
+<amp-list id="list" src="https://localhost:3002/list" layout="responsive"  width="375" height="400" [src]="'https://localhost:3002/list?' + (isSelectA ? '&a=1' : '') + (isSelectB ? '&b=1' : '')">
 ```
